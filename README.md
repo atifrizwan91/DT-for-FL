@@ -50,3 +50,13 @@ Open `DT' folder in VS code and run the following commands
    - ``` ./run-server-lite.sh```
 
 ![](https://github.com/atifrizwan91/Greenhouse/blob/main/Images/3.PNG)
+
+# Federated Learning
+
+## FL server
+  Run FL server form DT platform
+  
+## FL Clients
+  Start FL clients from DT platform 
+  
+  ![]( https://github.com/atifrizwan91/DT-for-FL/blob/main/DT/DigitalTwin/Images/DT%20All.png)
