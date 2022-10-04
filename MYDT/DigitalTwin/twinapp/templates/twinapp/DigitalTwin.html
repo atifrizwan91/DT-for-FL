@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Demo Tree</title>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script> -->
+
+
+
+    
+    {% comment %} <script type="text/javascript" src="scripts/jquery-ui-1.10.4.custom.min.js"></script>
+    <script type="text/javascript" src="required/script/jquery.connectingLine.js"></script>  {% endcomment %}
+    {% load static %}
+    <link href="{% static 'mainpage.css'%}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'jquery-1.11.0.min.js' %}"></script>  
+    <script type="text/javascript" src="{% static 'jquery.connectingLine.js' %}"></script>
+    <style type="text/css">
+        body
+        {
+            padding:0px;
+            margin:0px;
+            background: #FFF;
+        }
+        #centerprogress{
+            position: absolute;
+            margin-left: 1250px;
+            margin-top: 180px;
+        }
+        
+        #addDeviceDiv{
+            margin-left: 360px;
+            margin-top: 200px;
+            position: absolute;
+            width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 10%;
+            padding: 40px;
+            background: #EEF0FF;
+            border: 1px solid #37762E;
+
+
+        }
+        #addGatewayDiv{
+            margin-left: 360px;
+            margin-top: 200px;
+            position: absolute;
+            width: 400px;
+            border: 1px solid #ccc;
+            border-radius: 10%;
+            padding: 40px;
+            background: #EEF0FF;
+            border: 1px solid #37762E;
+        }
+        #diveServerInfo{
+            margin-left: 1215px;
+            margin-top: 346px;
+            position: absolute;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 10%;
+            padding: 10px;
+            background: #E9F7EF;
+            border: 1px solid #0E6655;
+        }
+        #sidebar{
+            margin-left: 30px;
+            margin-top: 230px;
+            position: absolute;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 10%;
+            padding: 40px;
+            background: #FBE5E5;
+            border: 1px solid #B20303;
+
+        }
+        .view_device_span{
+             color: green;
+             font-weight: bold;
+        }
+        .btn-outline-danger{
+            width: 200px;
+        }
+        .gradientText{
+            font-size: 15px; 
+            font-weight: bold; 
+            background: -webkit-linear-gradient(left, #a445b2, #fa4299);
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+    <!-- <link href="css/stylee.css" rel="stylesheet" type="text/css" />  -->
+    
+    
+    
+
+</head>
+<body>
+    {% csrf_token %}
+    <div id= 'sidebar'>
+        <center><h2>Select Option</h2> <br> <br>
+        <button id = "addDevice" class = 'btn btn-outline-danger'>Add Device <span id='spanAddDevice' style='font-size: 10' class="badge badge-success">Show</span></button> <br> <br><br>
+        <button id = "addGateway" class = 'btn btn-outline-danger'>Add Gateway <span id='spanAddGateway' style='font-size: 10' class="badge badge-success">Show</span></button> <br>
+    </center>
+    </div>
+
+    {% comment %} <div class="sidenav">
+        <a id = "addDevice" href="#">Add Device<span style='font-size: 10' class="badge badge-primary">Show</span></a>
+        <a id = "addGateway" href="#">Add Gateway<span class="badge badge-primary">Show</span></a>
+        <a href="#">Clients</a>
+        <a href="#">Contact</a>
+    </div> {% endcomment %}
+    <div id="addDeviceDiv">
+              <div class="form-group">
+                <h2>Add Device</h2>
+                <label for="exampleInputEmail1">IP Address</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="192.168.0.1">
+                <small id="emailHelp" class="form-text text-muted">The device with the enterted IP address should be in the same network</small>
+                <label for="txtDevicePort">Port</label>
+                <input type="text" class="form-control" id="txtDevicePort" aria-describedby="emailHelp" placeholder="1234">
+              </div>
+            
+              <center><button ID ='btnAddDevice' class="btn btn-primary">Add Device</button></center>
+    </div>
+
+    <div id="addGatewayDiv">
+              <div class="form-group">
+                <h2>Add Gateway</h2>
+                <label for="exampleInputEmail1">IP Address</label>
+                <input type="text" class="form-control" id="txtGatewayIP" aria-describedby="emailHelp" placeholder="192.168.0.1">
+                <small id="emailHelp" class="form-text text-muted">The Gateway with the enterted IP address should be in the same network</small>
+                <label for="txtGatewayPort">Port</label>
+                <input type="text" class="form-control" id="txtGatewayPort" aria-describedby="emailHelp" placeholder="1234">
+              </div>
+            
+              <center><button ID = 'btnAddGateway' class="btn btn-primary">Add Gateway</button>
+                <p id='errorGateway' style='color:red'></p>
+            </center>
+
+    </div>
+
+    <div id = 'diveServerInfo'>
+        <center><span id = 'deviceTask_Show' class = 'gradientText'>Server</span></center> </br>
+        <span class = 'gradientText'>IP Address:</span><span id = 'deviceIP_Show'>192.168.3.11</span> </br>
+        <span class = 'gradientText'>Port:</span><span id = 'devicePort_Show'></span>1298 </br>
+        <span class = 'gradientText'>Number of Devices:</span><span id = 'deviceStatus_Show'></span> 5</br>
+    </div>
+    
+    <div class="wrapper" id="centerprogress">
+        <div class="card">
+            <div class="circle circlecenter" >
+                <div class="bar"></div>
+                <div class="box"><span class="centerSpan"></span></div>
+            </div>
+            <center><div class="text">Training Progress</div></venter>
+        </div>
+    </div>
+    <div style= 'width: 2px; height: 100%; position: absolute; margin-left: 40%; background: #000;  '></div>
+    {% load static %}
+    {% comment %} Gateways {% endcomment %}
+    <div id='divGateway1' style='margin-top:359px; position: absolute; margin-left: 1050px;'>
+        <img class= 'imggateway1' src= "{%static 'image.jpg'%}" style='height: 70px; width: 120px;' /><br>
+        <span class='gradientText'>192.168.0.13:5000</span> <br>
+        <span class='gradientText'>Gateway 1</span>
+    </div>
+    <div id='divGateway2' style='margin-top:359px; position: absolute; margin-left: 1450px;'>
+        <img class= 'imggateway1' src= "{%static 'image.jpg'%}" style='height: 70px; width: 120px;' /><br>
+        <span class='gradientText'>192.168.0.19:5000</span><br>
+        <span class='gradientText'>Gateway 2</span>
+    </div>
+{% comment %} IoT Devices {% endcomment %}
+    <div style=' margin-top:100px; position: absolute; margin-left: 800px;'>
+        <img id= 'raspImg1' src= "{%static 'image.jpg'%}" style='height: 70px; width: 120px;' /><br>
+        <span class='gradientText'>192.168.0.6:5000</span> <br>
+        <div style = 'font-size: 12px; color: #a31'>
+            <span><b>Temperature:</b></span> <span id = 'tempVal1'>11.3</span><br>
+            <span><b>Humidity:</b></span> <span id = 'humVal1'>69.8</span><br>
+            <span><b>Air Quality:</b></span> <span id = 'airVal1'>0.9</span><br>
+        </div>
+    </div>
+    <div style=' margin-top:680px; position: absolute; margin-left: 800px;'>
+        <img id= 'raspImg2' src= "{%static 'image.jpg'%}" style='height: 70px; width: 120px;' /><br>
+        <span class='gradientText'>192.168.0.11:5000</span> <br>
+        <div style = 'font-size: 12px; color: #a31'>
+            <span><b>Temperature:</b></span> <span id = 'tempVal2'>14.0</span><br>
+            <span><b>Humidity:</b></span> <span id = 'humVal2'>56.4</span><br>
+            <span><b>Air Quality:</b></span> <span id = 'airVal2'>2.1</span><br>
+        </div>
+    </div>
+    <div style=' margin-top:100px; position: absolute; margin-left: 1700px;'>
+        <img id= 'raspImg3' src= "{%static 'image.jpg'%}" style='height: 70px; width: 120px;' /><br>
+        <span class='gradientText'>192.168.0.18:5000</span> <br>
+        <div style = 'font-size: 12px; color: #a31'>
+            <span><b>Temperature:</b></span> <span id = 'tempVal3'>23.3</span><br>
+            <span><b>Humidity:</b></span> <span id = 'humVal3'>69.1</span><br>
+            <span><b>Air Quality:</b></span> <span id = 'airVal3'>1.2</span><br>
+        </div>
+    </div>
+    <div style=' margin-top:680px; position: absolute; margin-left: 1700px;'>
+        <img id= 'raspImg4' src= "{%static 'image.jpg'%}" style='height: 70px; width: 120px;' /><br>
+        <span class='gradientText'>192.168.0.14:5000</span><br>
+        <div style = 'font-size: 12px; color: #a31'>
+            <span><b>Temperature:</b></span> <span id = 'tempVal4'>15.8</span><br>
+            <span><b>Humidity:</b></span> <span id = 'humVal4'>72.2</span><br>
+            <span><b>Air Quality:</b></span> <span id = 'airVal4'>0.9</span><br>
+        </div>
+    </div>
+
+    <div id = 'divTasksPopUp' style='position: absolute;  width:200px;'>
+        <div class="btn-group-vertical btn-group-sm" role="group" aria-label="Basic example">
+            <button  id = 'getTemperature' type="button" class="btn btn-danger">Get Temperature</button>
+            <button id = 'getHumidity'  type="button" class="btn btn-danger">Get Humidity</button>
+            <button id = 'getAir' type="button" class="btn btn-danger">Get Air-Quality</button>
+          </div>
+    </div>
+
+    <div style = "position: absolute; margin-top: 600px; margin-left: 30px; border-radius:20px; border: 1px solid red; padding: 20px; background: #EEF0FF" >
+        <div class="form-group">
+            <h2>Add Task</h2>
+            <label for="txtTaskName">Task Name</label>
+            <input type="text" class="form-control" id="txtTaskName" aria-describedby="emailHelp" placeholder="Temperature">
+            <small id="emailHelp" class="form-text text-muted">Enter the name of the task and select the device </small>
+           
+            <select class="form-control" id="sel1">
+                <option>Select Device</option>
+                <option>192.168.0.6:5000</option>
+                <option>192.168.0.11:5000</option>
+                <option>192.168.0.18:5000</option>
+                <option>192.168.0.14:5000</option>
+            </select>
+            <br><br>
+            <center><button class='btn btn-outline-danger'>Add Task<button></center>
+        </div>
+    </div>
+
+   
+
+
+
+
+        <!-- <div class="container">
+          <div class="button-container"><button>Register</button></div>
+          <div class="button-container"><button>Log In</button></div>
+        </div> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-circle-progress/1.2.2/circle-progress.min.js"></script>
+        <script type='text/javascript'>
+            let options = {
+                startAngle: -1.55,
+                size: 70,
+                value: 0.56,
+                fill: {gradient: ['#a445b2', '#fa4299']}
+            }
+            $(".circlecenter .bar").circleProgress(options).on('circle-animation-progress',
+                function(event, progress, stepValue){
+                    $(this).parent().find(".centerSpan").text(String(stepValue.toFixed(2).substr(2)) + "%");
+                });
+            
+            var mySVG = $('body').connect();
+
+            mySVG.drawLine({
+                left_node:'#divGateway1',
+                right_node:'#raspImg1',
+                status: 'accepted',
+                horizantal_gap:20,
+                style: 'solid',
+                error: 'hide',
+                width:2,
+                type:'A'
+            });
+
+            mySVG.drawLine({left_node:'#divGateway1', right_node:'.raspImg1', status: 'accepted', horizantal_gap:20, style: 'solid', error: 'hide', width:2, type:'A'});
+            mySVG.drawLine({
+                left_node:'#divGateway1',
+                right_node:'#raspImg2',
+                status: 'accepted',
+                horizantal_gap:20,
+                style: 'solid',
+                error: 'hide',
+                width:2,
+                type:'A'
+            });
+
+            mySVG.drawLine({
+                left_node:'#divGateway2',
+                right_node:'#raspImg3',
+                status: 'accepted',
+                horizantal_gap:20,
+                style: 'solid',
+                error: 'hide',
+                width:2,
+                type:'A'
+            });
+
+            mySVG.drawLine({
+                left_node:'#divGateway2',
+                right_node:'#raspImg4',
+                status: 'accepted',
+                horizantal_gap:20,
+                style: 'solid',
+                error: 'hide',
+                width:2,
+                type:'A'
+            });
+
+            mySVG.drawLine({
+                left_node:'#divGateway1',
+                right_node:'#diveServerInfo',
+                status: 'accepted',
+                horizantal_gap:20,
+                style: 'solid',
+                error: 'hide',
+                width:5,
+                type:'A'
+            });
+            mySVG.drawLine({
+                left_node:'#divGateway2',
+                right_node:'#diveServerInfo',
+                status: 'accepted',
+                horizantal_gap:20,
+                style: 'solid',
+                error: 'hide',
+                width:5,
+                type:'A'
+            });
+            $('#addGatewayDiv').hide();
+            $('#addDeviceDiv').hide();
+            $('#addDevice').click(function(){
+                $('#spanAddGateway').text('Show');
+                $('#spanAddGateway').removeClass('badge-dark');
+                $('#spanAddGateway').addClass('badge-success');
+
+
+                var txtSpan = $('#spanAddDevice').text();
+                if(txtSpan == 'Show'){
+                    $('#spanAddDevice').text('Hide');
+                    $('#spanAddDevice').addClass('badge-dark');
+                    $('#spanAddDevice').removeClass('badge-success');
+                }else{
+                    $('#spanAddDevice').text('Show');
+                    $('#spanAddDevice').removeClass('badge-dark');
+                    $('#spanAddDevice').addClass('badge-success');
+                }
+                $('#spanAddDevice').addClass('badge-success');
+                $('#addGatewayDiv').hide(1000);
+                $('#addDeviceDiv').toggle(1000);
+            });
+            $('#addGateway').click(function(){
+                
+                $('#spanAddDevice').removeClass('badge-dark');
+                $('#spanAddDevice').addClass('badge-success');
+                $('#spanAddDevice').text('Show');
+
+                var txtSpan = $('#spanAddGateway').text();
+                if(txtSpan == 'Show'){
+                    $('#spanAddGateway').text('Hide');
+                    $('#spanAddGateway').addClass('badge-dark');
+                    $('#spanAddGateway').removeClass('badge-success');
+                }else{
+                    $('#spanAddGateway').text('Show');
+                    $('#spanAddGateway').removeClass('badge-dark');
+                    $('#spanAddGateway').addClass('badge-success');
+                }
+
+                $('#addDeviceDiv').hide(1000);
+                $('#addGatewayDiv').toggle(1000);
+            });
+
+
+            $('#btnAddGateway').on('click', function(){
+                var ipTester = 
+                /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+                if(!$('#txtGatewayIP').val() ){
+                    $('#errorGateway').text('Please Enter IP Address')
+                    return
+                }
+                if (!ipTester.test($('#txtGatewayIP').val())){
+                    $('#errorGateway').text('IP Address is not valid')
+                    return
+                }
+                if(!$('#txtGatewayPort').val() ){
+                    $('#errorGateway').text('Please Enter Port')
+                    return
+                }
+                var csrf = $('input[name =csrfmiddlewaretoken]').val();
+                $.ajax({
+                    data: {
+                        ip_address: $('#txtGatewayIP').val(),
+                        port: $('#txtGatewayPort').val(),
+                        csrfmiddlewaretoken : csrf
+                    },
+                    type: 'POST',
+                    url: '/addGateway'
+                }).done(function(data){
+                    if(data.status ==1){
+                        alert(data.status)
+                    }else{
+                        alert(data.status)
+                        $('#errorGateway').text($('#txtGatewayIP').val()+' is down!')
+                    }
+                });
+            });
+            $('#divTasksPopUp').hide();
+            {% comment %} $('#divTasksPopUp').hide(); {% endcomment %}
+            var clicked_pi
+            $('#raspImg1').click(function(){
+                $('#divTasksPopUp').hide();
+                $('#divTasksPopUp').css({"margin-left": "950px", "margin-top": "140px"}).show('slow')
+                clicked_pi = 1
+            });
+            $('#raspImg2').click(function(){
+                $('#divTasksPopUp').hide();
+                $('#divTasksPopUp').css({"margin-left": "950px", "margin-top": "700px"}).show('slow');
+                clicked_pi = 2
+            });
+            $('#raspImg3').click(function(){
+                $('#divTasksPopUp').hide();
+                $('#divTasksPopUp').css({"margin-left": "1800px", "margin-top": "120px"}).show('slow')
+                clicked_pi = 3
+            });
+            $('#raspImg4').click(function(){
+                $('#divTasksPopUp').hide();
+                $('#divTasksPopUp').css({"margin-left": "1800px", "margin-top": "700px"}).show('slow')
+                clicked_pi = 4
+            });
+
+            $('#getTemperature').click(function(){
+                var csrf = $('input[name =csrfmiddlewaretoken]').val();
+                $.ajax({
+                    data: {
+                        iot_deivce_num: clicked_pi,
+                        data_type: 'Temp',
+                        csrfmiddlewaretoken : csrf
+                    },
+                    type: 'POST',
+                    url: '/getDeviceInfo'
+                }).done(function(data){
+                    
+                    $('#tempVal'+clicked_pi).text(data.val)
+                });
+            });
+
+            $('#getHumidity').click(function(){
+                var csrf = $('input[name =csrfmiddlewaretoken]').val();
+                $.ajax({
+                    data: {
+                        iot_deivce_num: clicked_pi,
+                        data_type: 'Hum',
+                        csrfmiddlewaretoken : csrf
+                    },
+                    type: 'POST',
+                    url: '/getDeviceInfo'
+                }).done(function(data){
+                    
+                    $('#humVal'+clicked_pi).text(data.val)
+                });
+            });
+
+            $('#getAir').click(function(){
+                var csrf = $('input[name =csrfmiddlewaretoken]').val();
+                $.ajax({
+                    data: {
+                        iot_deivce_num: clicked_pi,
+                        data_type: 'Air',
+                        csrfmiddlewaretoken : csrf
+                    },
+                    type: 'POST',
+                    url: '/getDeviceInfo'
+                }).done(function(data){
+                    
+                    $('#airVal'+clicked_pi).text(data.val)
+                });
+            });
+        </script>
+    </body>
+    </html>

@@ -1,0 +1,10 @@
+{
+	"Ip_address": ["192.168.0.13", "192.168.0.14", "192.168.0.16"],
+	"serverIP": "192.168.0.76",
+	"ports": [5000,5000,5000],
+	"model" : "DNN",
+	"data": "Energy",
+	"server_rounds": 5,
+	"local_epochs": 5
+	
+}

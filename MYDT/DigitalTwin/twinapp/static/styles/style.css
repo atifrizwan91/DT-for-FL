@@ -1,0 +1,224 @@
+
+/* body {
+    font-family: "NanumBarunGothic", "NanumBarunGothicOTF", "Nanum Barun Gothic", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif !important;
+}
+
+.form-wrapper {
+    padding: 13px;
+    border: 1px solid #777;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+.form-wrapper button[type='submit'] {
+    margin: 14px;
+}
+
+.form-wrapper .page-title{ text-align: center; }
+
+.flowchart {overflow: hidden; width: 90%; margin: 0 auto; margin-top: 114px; }
+
+.box {
+    width: 200px;
+    padding: 30px;
+    border: 2px solid #68B3CA;
+    border-radius: 10px;
+    float: left;
+    height: 120px;
+    vertical-align: middle;
+    text-align: center;
+    margin: 10px;
+    font-weight: 800;
+    background-color: #68B3CA;
+    color: #fff;
+    vertical-align: middle;
+    margin-right: 33px;
+    cursor: pointer;
+}
+
+.box a{ color: #f1f1f1;}
+span.help-inline {color: red;}
+.wrapper {
+    width: 371px;
+    float: left;
+    overflow: hidden;
+    border-right: 1px solid #f1f1f1;
+    margin-bottom: 10px;
+}
+*/
+/* .counter {
+    background-color: #056a77;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+}
+
+
+.cpu_used {
+    text-align: center;
+    width: 100%;
+    height: 20px;
+    background-color: #49a06f;
+    margin-bottom: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+.cpu_used.urgnet-event {
+    background-color: #770525;
+}
+.cpu_used.normal-event {
+    background-color: #775720;
+}
+.cpu_used.urgent-periodic {
+    background-color: #77096c;
+}
+.cpu_empty {
+    text-align: center;
+    width: 100%;
+    height: 20px;
+    background-color: #1c772e;
+    margin-bottom: 4px;
+    color: #fff;
+}
+
+.cpu_finished {
+    width: 4px;
+    height: 10px;
+    background-color: #770525;
+    display: block;
+    margin-bottom:1px ;
+}
+
+
+/* Style the tab */
+div.tab {
+    float: left;
+    border: 1px solid #ccc;
+    background-color: rgba(57, 136, 67, 0.6);
+    width: 30%;
+    min-height: 400px;
+
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    display: block;
+    background-color: inherit;
+    color: #f1f1f1;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #68B3CA;
+}
+
+/* Create an active/current "tab button" class */
+div.tab button.active {
+    background-color: #68B3CA;
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: 70%;
+    border-left: none;
+    display: none;
+    height: 400px;
+    overflow-y:scroll ;
+}
+
+.tabcontent #summary {display: block;}
+
+#footer {
+    clear: both;
+    width: 100%;
+    border-top: 2px solid #999;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.main-content {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+
+.page-title {
+    margin-bottom: 36px;
+}
+.navbar-default .navbar-nav>li>a:hover {
+    color: #f1f1f1;
+    font-size: 110%;
+}
+.site-title {color: #fff; padding-left:11px; margin-bottom: 29px; }
+
+.footer_logo img {width: 86%;}
+
+.is_event {
+    margin-left: 13px;
+    margin-top: 11px;
+}  */
+
+.item {
+      border: 1px solid black;
+      background-color: #ddddff;
+      padding: 15px;
+      margin-bottom:10px;
+      text-align: center;
+      vertical-align: middle;
+}
+
+#state1 {
+      position: absolute;
+      left: 100px;
+      top: 100px;
+}
+
+#state2 {
+      position: absolute;
+      left: 250px;
+      top: 100px;
+}
+
+#state3 {
+      position: absolute;
+      left: 100px;
+      top: 250px;
+}
+
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+
+
+
+.tl-wrapper {
+    display: block;
+    width: 35px;
+    float: left;
+
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 70%;
+}
+/* .cpu_timeline {border-top: 1px solid black;}
+.cpu_timeline.fill {border-top: 1px solid black; border-right: 1px solid black;background-color: #056a77; height: 15px;}
+.cpu_timeline.empty {border-top: 1px solid black; border-right: 1px solid black;background-color: #ffffff;height: 15px;}
+#tt_timeline table {width:5400px}
+.scenarios {border: 1px solid green; padding: 5px; border-radius: 5px; margin-bottom: 10px; overflow: hidden;}
+.scenarios a {display: block; width:120px; float: left; margin-left: 10px; background-color: rgba(0, 120, 15, 0.6); margin-bottom: 5px;}
+.scenarios button {display: block; float: left; width:100%; margin-left: 10px; margin-bottom: 5px;} */
+

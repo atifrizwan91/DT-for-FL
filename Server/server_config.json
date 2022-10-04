@@ -1,0 +1,1 @@
+{"clients": ["node24", "node25", "node27", "node31"], "clients_IPs": ["192.168.0.13", "192.168.0.14", "192.168.0.16", "192.168.0.17"], "clients_Ports": [5000, 5000, 5000, 5000], "model": "DNN", "server_rounds": 10, "local_epochs": 5}

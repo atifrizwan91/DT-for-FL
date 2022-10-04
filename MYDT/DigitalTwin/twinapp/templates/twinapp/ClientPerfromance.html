@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Edge Computing Digital Twin Platform</title>
+
+        <!-- Custom fonts for this template-->
+
+        <link
+              href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+              rel="stylesheet">
+        {% load static %}
+        <link href="{% static 'vendor/fontawesome-free/css/all.min.css'%}" rel="stylesheet"
+              type="text/css">
+        <!-- Custom styles for this template-->
+
+        <link href="{% static 'css/sb-admin-2.css'%}" rel="stylesheet">
+        <!-- JQuery JavaScript-->
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/2.5.8/js/jsplumb.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
+        <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+        <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js'%}"></script>
+        <script src="{% static 'js/sb-admin-2.min.js'%}"></script>
+        <link href="{% static 'mainpage.css'%}" rel="stylesheet">
+        <script type="text/javascript" src="{% static 'jquery-1.11.0.min.js' %}"></script>  
+        <script type="text/javascript" src="{% static 'jquery.connectingLine.js' %}"></script>
+        <style type="text/css">
+            body
+            {
+                padding:0px;
+                margin:0px;
+                background: #FFF;
+            }
+            #centerprogress{
+                position: absolute;
+                margin-left: 1250px;
+                margin-top: 180px;
+            }
+
+            #addDeviceDiv{
+                margin-left: 360px;
+                margin-top: 200px;
+                position: absolute;
+                width: 400px;
+                border: 1px solid #ccc;
+                border-radius: 10%;
+                padding: 40px;
+                background: #EEF0FF;
+                border: 1px solid #37762E;
+
+
+            }
+            #addGatewayDiv{
+                margin-left: 360px;
+                margin-top: 200px;
+                position: absolute;
+                width: 400px;
+                border: 1px solid #ccc;
+                border-radius: 10%;
+                padding: 40px;
+                background: #EEF0FF;
+                border: 1px solid #37762E;
+            }
+            #diveServerInfo{
+                margin-left: 1215px;
+                margin-top: 346px;
+                position: absolute;
+                width: 200px;
+                border: 1px solid #ccc;
+                border-radius: 10%;
+                padding: 10px;
+                background: #E9F7EF;
+                border: 1px solid #0E6655;
+            }
+            #sidebar{
+                margin-left: 30px;
+                margin-top: 230px;
+                position: absolute;
+                width: 300px;
+                border: 1px solid #ccc;
+                border-radius: 10%;
+                padding: 40px;
+                background: #FBE5E5;
+                border: 1px solid #B20303;
+
+            }
+            .view_device_span{
+                color: green;
+                font-weight: bold;
+            }
+            .btn-outline-danger{
+                width: 200px;
+            }
+            .gradientText{
+                font-size: 15px; 
+                font-weight: bold; 
+                background: -webkit-linear-gradient(left, #a445b2, #fa4299);
+                -webkit-background-clip: text; 
+                -webkit-text-fill-color: transparent;
+            }
+            #registeredDevicesInfo .card-body span{
+                font-size: 12px;
+                color: #111192;
+                background: -webkit-linear-gradient(left, #a445b2, #fa4299);
+                -webkit-background-clip: text; 
+
+            }
+        </style>
+    </head>
+
+    <body id="page-top">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-laugh-wink"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">Digital Twin Platform</div>
+                </a>
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item active">
+                    <a class="nav-link" href="/index">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Environment</span></a>
+                </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Registration
+                </div>
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                       aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fas fa-fw fa-cog"></i>
+                        <span>Edge Platform</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Registering:</h6>
+                            <a class="collapse-item" href="/registergatewaynode">Edge Gateway</a>
+                            <a class="collapse-item" href="/ClientPerfromance">Model Management</a>
+                            <a class="collapse-item" href="/deviceconnection">Preparing Platform</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/registerservice">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Service</span></a>
+                </li>
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/registercontroller">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Controller</span></a>
+                </li>
+                <!-- Nav Item - Utilities Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                       aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>Tasks</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Custom Tasks:</h6>
+                            <a class="collapse-item" href="/addwork">Genral Task</a>
+                            <a class="collapse-item" href="/addservicework">Extended Task</a>
+                            <a class="collapse-item" href="/addtest">Generate TEST</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Actions
+                </div>
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                       aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-fire"></i>
+                        <span>Operating Tasks</span>
+                    </a>
+                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Task Lists:</h6>
+                            <a class="collapse-item" href="/operateworks">General Task Operating</a>
+                            <a class="collapse-item" href="/operateserviceworks">Extended Task Operting</a>
+                            <a class="collapse-item" href="/operatetest">Operate TEST</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/operatefl">
+                        <i class="fas fa-fw fa-handshake-o"></i>
+                        <span>SLearning</span></a>
+                </li>
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
+
+                <!-- Sidebar Message -->
+                <div class="sidebar-card d-none d-lg-flex">
+                    <img class="sidebar-card-illustration mb-2" src="static/img/pic00.jpg"
+                         alt="...">
+                    <p class="text-center mb-2"><strong>Digital Twin Platform</strong> provides esaest way to manage and
+                        monitor your controlled edge device environment </p>
+                </div>
+            </ul>
+            <div id="content-wrapper" class="d-flex flex-column" style="width: 100%">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-4" >
+                        <center>
+                            <div class="card" style = 'margin-left:100px; width: 100%; height : 700px; margin-top: 50px;'>
+
+                                <div class="card-body">
+                                    <h5 class = 'card-title'>Prepare model for FL Clients</h5>
+                                    <div class="row"><br>
+                                        <input class="form-control" id = "txtModelName" type="text" placeholder="Model Name" style="margin-left: 20px;margin-right: 20px; margin-top: 10px;"/><br>
+                                        <select class="form-control" id = "selectLoss" style="margin-left: 20px;margin-right: 20px; margin-top: 10px;">
+                                            <option value = '0'>Model Loss </option>
+                                            <option value = 'mean_squared_error'>mean_squared_error </option>
+                                            <option value = 'mean_absolute_error'>mean_absolute_error </option>
+                                        </select> <br>
+                                        <select class="form-control" id = "selectActivation" style="margin-left: 20px;margin-right: 20px; margin-top: 10px;">
+                                            <option value = '0'>Activation Function </option>
+                                            <option value = 'Linear'>Linear </option>
+                                            <option value = 'Step'>Step </option>
+                                            <option value = 'relu'>ReLU </option>
+                                        </select><br>
+                                        <select class="form-control" id = "selectlayers" style="margin-left: 20px;margin-right: 20px; margin-top: 10px;">
+                                            <option value = '0'>Hidden Layers </option>
+                                            <option value = '4'>4 </option>
+                                            <option value = '8'>8 </option>
+                                            <option value = '16'>16 </option>
+                                        </select> <br>
+                                        <select class="form-control" id = "selectOptimizers" style="margin-left: 20px;margin-right: 20px; margin-top: 10px;">
+                                            <option value = '0'>Optimizer </option>
+                                            <option value = 'Nadam'>Nadam </option>
+                                            <option value = 'Adam'>Adam </option>
+                                            <option value = 'Adadelta'>Adadelta </option>
+                                            <option value = 'Adamax'>Adamax </option>
+                                            <option value = 'RMSprob'>RMSprob </option>
+                                        </select> <br>
+                                        <input class="form-control" id = "txtinputshape" placeholder = "Input Shape" type="number" style="margin-left: 20px;margin-right: 20px; margin-top: 10px;"/><br>
+                                        <input class="form-control" id = "txtoutputshape" placeholder = "Output Shape" type="number" style="margin-left: 20px;margin-right: 20px; margin-top: 10px;"/>
+                                        <br><br> 
+                                        <button class= 'btn btn-warning' id = 'btnUpdateModel' style='margin-top:20px; width: 100%'>Model Preparation</button> <br><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                    <div class="col-4"  style="height: 300px;">
+                        <center>
+                            <div class="card" id= 'divModelView' style = 'margin-left:100px; width: 100%; height : 100%; margin-top: 50px;'>
+                                <div class="card-body">
+                                    <h5 class = 'card-title'>Prepared Model</h5>
+
+                                    <div class="card">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <img src = 'static/model.png' style= 'height: 400px; width: 250px;'/>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="card" style="padding: 10px; margin: 10px; background: #ECAB52">
+                                                    <b>Model Name:  <span id = 'txtMN'>DNN</span></b>
+                                                </div>
+                                                <div class="card" style="padding: 10px; margin: 10px; background: #ECAB52">
+                                                    <b>Model: <span id = 'txtMT'>DNN</span></b>
+                                                </div>
+                                                 <div class="card" style="padding: 10px; margin: 10px; background: #ECAB52">
+                                                    <b>Loss: <span id= "txtL">MSE</span></b>
+                                                </div> 
+                                                <div class="card" style="padding: 10px; margin: 10px; background: #ECAB52">
+                                                    <b>Activation Function: <span id = 'txtAct'>ReLU</span></b>
+                                                </div>
+                                                <div class="card" style="padding: 10px; margin: 10px; background: #ECAB52">
+                                                    <b>Hidden Layers: <span id = 'txtHL'>5</span></b>
+                                                </div>
+                                                <div class="card" style="padding: 10px; margin: 10px; background: #ECAB52">
+                                                    <b>Optimizer: <span id = 'txtOpt'>Adam</span></b>
+                                                </div>
+                                                <div class="card" style="padding: 10px; margin: 10px; background: #ECAB52">
+                                                    <b>Learning Rate: <span id = 'txtLR'>Adaptive</span></b>
+                                                </div>
+                                                <div class="card" style="padding: 10px; margin: 10px; background: #ECAB52">
+                                                    <b>Input Shape: <span id = 'txtIS'>7</span></b>
+                                                </div>
+                                                <div class="card" style="padding: 10px; margin: 10px; background: #ECAB52">
+                                                    <b>Output Shape: <span id = 'txtOS'>5</span></b>
+                                                </div>
+
+                                            </div>
+                                            <button class= 'btn btn-warning' id = 'btnTrainModel' style = 'width:100%;'>Train Model</button> <br><br>
+                                            <div id= 'progressbar' class="progress-bar progress-bar-striped progress-bar-animated" style="width:100%">Please Wait: Model is Training </div>
+                                                
+                                              
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                    <div class="col-4" >
+
+
+                        <div id= 'divResult' class="card" style = 'margin-left:100px; width: 100%; height : 700px; margin-top: 50px;'>
+
+                            <div class="card-body" style='overflow: scroll;'>
+                                <h5 class = 'card-title'>Model Results</h5>
+                                
+                                <table class="table" id="divPerformance"></table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Edge Computing Digital Twin Platform Website 2021</span>
+                </div>
+            </div>
+        </footer>
+
+
+
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+
+        <script type='text/javascript'>
+            var csrf = $('input[name =csrfmiddlewaretoken]').val();
+
+
+
+            function update_devices(){
+                $('#registeredDevices').append("<span>Updating Device Status </span> <br> <span class = gradientText>Please Wait</span>")
+                $.ajax({
+                    data: {
+                        csrfmiddlewaretoken : csrf,
+                        request_type: '1'
+                    },
+                    type: 'POST',
+                    url: '/get_gateways_status'
+                }).done(function(data){
+                    $('#registeredDevices').empty()
+                    if(data.devices == null){
+                        $('#registeredDevices').append("<span class = gradientText>No Registered Gateway</span>")
+                    }
+                    $.each(data.devices , function(i,val){
+                        var status = 'Offline'
+                        c = 'danger'
+                        if(val[3] == 1){
+                            status = 'Active'
+                            c = 'success'
+                        }
+                        var device =  `<div class = 'card' style = 'padding: 4px;'>
+<button class="btn btn-dark"  id = "btnDeviceInfo`+ val[0] +`"> 
+<input  id = 'txtdeviceID' type = 'hidden' value = `+val[0]+`>
+<span  class="badge badge-light">`+val[1]+`</span> 
+<span class="badge badge-light">`+val[2]+`</span>
+<span class="badge badge-`+c+`">`+status+`</span>
+            </button>
+            </div>` 
+                        $('#registeredDevices').append(device)
+
+                        $('#btnDeviceInfo'+val[0]).click(function(){
+                            alert($(this).find("#txtdeviceID").val())
+                        });
+
+                    });
+                });
+            }
+
+            $('#btnaddDevice').click(function(){
+                var ipTester = 
+                    /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+                if(!$('#txtDeviceIP').val() ){
+                    alert('Please Enter IP Address')
+                    return
+                }
+                if (!ipTester.test($('#txtDeviceIP').val())){
+                    alert('IP Address is not valid')
+                    return
+                }
+                if(!$('#txtDevicePort').val() ){
+                    alert('Please Enter Port')
+                    return
+                }
+                var csrf = $('input[name =csrfmiddlewaretoken]').val();
+                $.ajax({
+                    data: {
+                        ip_address: $('#txtDeviceIP').val(),
+                        port: $('#txtDevicePort').val(),
+                        csrfmiddlewaretoken : csrf
+                    },
+                    type: 'POST',
+                    url: '/addGateway'
+                }).done(function(data){
+                    if(data.status == 1){
+                        alert('Gateway added Successfully')
+                        $('#txtDeviceIP').val(''),
+                            $('#txtDevicePort').val(''),
+                            update_devices()
+                    }else{
+                        alert('Failed to add device')
+
+                    }
+                });
+            });
+
+            function getPerformance(){
+                $.ajax({
+                    data: {
+                        csrfmiddlewaretoken : csrf,
+
+                    },
+                    type: 'POST',
+                    url: '/getModelPerformance'
+                }).done(function(data){
+                    t_data = data.data
+                    $('#divPerformance').append(t_data)
+                });
+            }
+            {% comment %} getPerformance() {% endcomment %}
+            $('#divModelView').hide()
+            $('#divResult').hide()
+            $('#btnUpdateModel').click(function(){
+                $('#divModelView').show()
+                var txtModelName = $('#txtModelName').val()
+                var selectLoss = $('#selectLoss').val()
+                var selectActivation = $('#selectActivation').val()
+                var selectlayers = $('#selectlayers').val()
+                var selectOptimizers = $('#selectOptimizers').val()
+                var txtinputshape = $('#txtinputshape').val()
+                var txtoutputshape = $('#txtoutputshape').val()
+                
+                $('#txtMN').text(txtModelName)
+                $('#txtL').text(selectLoss)
+                $('#txtAct').text(selectActivation)
+                $('#txtHL').text(selectlayers)
+                $('#txtOpt').text(selectOptimizers)
+                $('#txtIS').text(txtinputshape)
+                $('#txtOS').text(txtoutputshape)
+                
+                
+                
+            });
+            $('#progressbar').hide()
+            $('#btnTrainModel').click(function(){
+                var txtModelName = $('#txtModelName').val()
+                var selectLoss = $('#selectLoss').val()
+                var selectActivation = $('#selectActivation').val()
+                var selectlayers = $('#selectlayers').val()
+                var selectOptimizers = $('#selectOptimizers').val()
+                var txtinputshape = $('#txtinputshape').val()
+                var txtoutputshape = $('#txtoutputshape').val()
+                
+                $('#progressbar').show()
+                $.ajax({
+                    data: {
+                        loss: selectLoss,
+                        activation: selectActivation,
+                        hidden_layers: selectlayers,
+                        optimizer: selectOptimizers,
+                        input_shape: txtinputshape,
+                        output_shape: txtoutputshape,
+                        csrfmiddlewaretoken : csrf
+                    },
+                    type: 'POST',
+                    url: '/prepare_and_train_model'
+                }).done(function(data){
+                    $('#divResult').show()
+                    $('#divPerformance').append(data.data)
+                    $('#progressbar').hide()
+                });
+                
+            });
+        </script>
+    </body>
+</html>
+
+
