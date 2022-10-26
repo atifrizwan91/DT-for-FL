@@ -65,3 +65,7 @@ Digital Twin Video Demo [Part 2](https://www.youtube.com/watch?v=TILGCEQVeP8).
   Start FL clients from DT platform 
   
   ![]( https://github.com/atifrizwan91/DT-for-FL/blob/main/DT/DigitalTwin/Images/DT%20All.png)
+  
+# Overall Architecture of DT
+
+ ![]( https://github.com/atifrizwan91/DT-for-FL/blob/main/DT/DigitalTwin/Images/Over%20All%20Architecture.png)
