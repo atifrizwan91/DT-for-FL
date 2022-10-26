@@ -12,8 +12,11 @@ from threading import Thread
 import time
 from pathlib import Path
 import pandas as pd
+from csv import writer
 import compress_json
 from termcolor import colored
+from Configuration import Configuration
+import math
 class NumpyEncoder(json.JSONEncoder):
     """ Special json encoder for numpy types """
     def default(self, obj):
@@ -37,6 +40,7 @@ class Server():
         self.model = conf['model']
         self.server_rounds = conf['server_rounds']
         self.initilize_()
+        self.selected_clients = self.clients
         self.completed_rounds = 0
         if(len(self.clients) != len(self.clients_IPs) or len(self.clients_IPs) !=len(self.clients_Ports)):
             print('Error: The size of clients, Ips add and ports should be equal')
@@ -46,6 +50,8 @@ class Server():
     def initilize_(self):
         f = open('ModelReceivedList.txt', '+w')
         f.write('')
+        f = open('selected Clients.txt', '+w')
+        f.close()
         for i in self.clients:
             Path(i).mkdir(parents=True, exist_ok=True)
             f = open(i+'/performance.csv', '+w')
@@ -66,6 +72,38 @@ class Server():
         f = len(list(f)) == self.num_of_clients
         return f
     
+    
+    def variance(self,data):
+        n = len(data)
+        mean = sum(data) / n
+        deviations = [(x - mean) ** 2 for x in data]
+        v = sum(deviations) / n
+        return mean,v
+    
+    def partial_participation(self):
+        all_clients_performance = {}
+        per_for_variance = []
+        for i in self.clients:
+            data = compress_json.load(i + '/model.json.gz')
+            data = json.loads(data)
+            performance =  data['performance']
+            df = pd.DataFrame(performance, columns= performance.keys())
+            all_clients_performance[i] = list(df['mae'])[-1]
+            per_for_variance.append(list(df['mae'])[-1])
+        
+        mu, v = self.variance(per_for_variance)
+        sigma = math.sqrt(v)
+        selected_clients = []
+        for i in all_clients_performance:
+            if(all_clients_performance[i] < mu+1*sigma):
+                selected_clients.append(i)
+        f = open('selected Clients.txt', '+a')
+        writer_object = writer(f)
+        writer_object.writerow(selected_clients)
+        f.close()
+        self.selected_clients = selected_clients
+        return selected_clients
+            
     def get_weights(self, client):
          # with open(client + '/model.json') as json_file:
          data = compress_json.load(client + '/model.json.gz')
@@ -73,7 +111,7 @@ class Server():
          weights = np.array([np.array(i) for i in data['weights']])
          performance =  data['performance']
          df = pd.DataFrame(performance, columns= performance.keys())
-
+         
          if(self.completed_rounds == 1):
              df.to_csv(client+ '/performance.csv', mode='w', header=True)
          else:
@@ -83,8 +121,12 @@ class Server():
         
     def collect_weights(self):
         all_weights = []
-        for i in self.clients:
+        selected_clients = self.partial_participation() #self.clients for full client participation
+        print(selected_clients)
+        print('--------------------')
+        for i in selected_clients:
             weights = weights = self.get_weights(i)
+            print(i+' Selected')
             all_weights.append(weights)
         return all_weights
     
@@ -95,7 +137,7 @@ class Server():
         aggregated_weights = []
         for i in range(0, len(weights[0])):
             t = []
-            for c in range(0, self.num_of_clients): #self.num_of_clients
+            for c in range(0, len(self.selected_clients)): #self.num_of_clients
                 t.append(weights[c][i])
             aggregated_weights.append((self.average_weights(t)))
         #self.save_model_json(aggregated_weights)
@@ -134,10 +176,13 @@ class Server():
                 rounds += 1
                 f = open('ModelReceivedList.txt', 'w')
                 f.write('')
-            time.sleep(20)
+            time.sleep(10)
                 
 
 
+print('-------------Preparing Configuration Files')
+c = Configuration()
+c.setup_configurations()
 print('Sending Configurations')
 s = Sender('config.json')
 s.Broadcast_Configurations()

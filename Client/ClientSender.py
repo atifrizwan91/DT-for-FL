@@ -49,7 +49,8 @@ class Sender():
         file_size = os.path.getsize(self.file_name)
         self.sock.send(str(file_size).encode(self.FORMAT))
         print(self.sock.recv(1024).decode(self.FORMAT))
-                
+        f =  open('model_size.csv', '+a')
+        f.write(str(file_size) +',')
         #Send File Content
         c = 0
         packet_size = 1024

@@ -17,10 +17,12 @@ import json
 import socket
 import time
 from threading import Thread
-from Configuration import Configuration
+
 class Sender():
     
     def __init__(self, file_name):
+        
+        
         conf = self.get_configuration()
         # self.sock = self.prepare_socket()
         self.file_name = file_name
@@ -114,15 +116,13 @@ class Sender():
                 hit_rate += 1
                 if(hit_rate > 5):
                     break
-                time.sleep(10)
+                time.sleep(20)
     
     
     
     def Broadcast_Configurations(self):
         i = 0
-        print('-------------Preparing Configuration Files')
-        c = Configuration('Database')
-        c.setup_configurations()
+        
 
         clients = self.clients
 
@@ -183,7 +183,7 @@ class Sender():
                 hit_rate += 1
                 if(hit_rate > 5):
                     break
-                time.sleep(10)
+                time.sleep(15)
     # def BROADCAST(self):
     #     i = 1
     #     hit_rate = 1

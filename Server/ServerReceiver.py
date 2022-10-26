@@ -53,15 +53,15 @@ class Receiver():
                 self.rounds += 1
                 #Receive Device ID
                 DeviceId = conn.recv(1024).decode(self.FORMAT)
-                conn.send("DeviceId  Received".encode(self.FORMAT))
+                conn.send("DeviceId  Received By Server".encode(self.FORMAT))
                 print(DeviceId)
                 #Receive File Name
                 filename = conn.recv(1024).decode(self.FORMAT)
-                conn.send("File Name Received".encode(self.FORMAT))
+                conn.send("File Name Received By Server".encode(self.FORMAT))
                 print(filename)
                 #Receive File Size
                 filezsize = conn.recv(1024).decode(self.FORMAT)
-                conn.send("File Size Received".encode(self.FORMAT))
+                conn.send("File Size Received By Server".encode(self.FORMAT))
                 print(filezsize)
                 c = 0
                 #Receive File Content
@@ -83,9 +83,9 @@ class Receiver():
                 # file.write(data)
                 
                 
-                conn.send("File data received".encode(self.FORMAT))
+                conn.send("File data received By Server".encode(self.FORMAT))
                 file.close()
-                print('Data Received')
+                print('Data Received From Client')
                 self.update_received_list(DeviceId)
                 
     # Different port for each node

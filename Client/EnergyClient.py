@@ -7,13 +7,12 @@ Created on Mon Jun 20 15:52:21 2022
 
 import pandas as pd
 import numpy as np
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import r2_score
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score, r2_score
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM, Embedding, Flatten, Conv1D, SpatialDropout1D
 from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import MinMaxScaler
+
 from sklearn.model_selection import train_test_split
 import os
 from tensorflow.keras.callbacks import EarlyStopping
@@ -24,6 +23,7 @@ import platform
 import json
 import compress_json
 import time
+
 # from csv import writer
 from ClientSender import Sender
 from threading import Thread
@@ -43,12 +43,23 @@ class NumpyEncoder(json.JSONEncoder):
 
 class EnergyClient:
     def __init__(self):
+        print("Waiting for Configuration")
+        self.receiver_sock = int(input("Enter Port Number: "))
+        self.receiver = Receiver(self.receiver_sock)
+        thread = Thread(target=self.receiver.recieve_configurations)
+        thread.start()
+        thread.join()
+        time.sleep(2)
+        
+        
+        
         conf = self.get_configuration()
         self.object_created = True
-        self.data_path = 'data//'+conf['data'] +'.csv'
+        #local_file = input('Enter Data File Name: ')
+        self.data_path = 'data//'+ conf['data'] +'.csv'
         self.serverIP = conf['serverIP']
         self.model_name = 'self.get_model_' + conf['model']
-        self.X_train, self.X_test, self.y_train, self.y_test = self.get_seoul_data()
+        self.X_train, self.X_test, self.y_train, self.y_test = self.get_data()
         self.performance = None
         self.first_iteration = True
         self.local_epochs = conf['local_epochs']
@@ -78,6 +89,16 @@ class EnergyClient:
         f.close()
         f = open('performance.csv', '+w')
         f.close()
+        f = open('performance_after_round.csv', '+w')
+        f.close()
+        f = open('waiting_time.csv', '+w')
+        f.close()
+        f = open('Training_time.csv', '+w')
+        f.close()
+        f = open('send_time.csv', '+w')
+        f.close()
+        f = open('model_size.csv', '+w')
+        f.close()
         Path('Server').mkdir(parents=True, exist_ok=True)
         
     def object_test(self):
@@ -91,12 +112,14 @@ class EnergyClient:
     def get_data(self):
         
         df = pd.read_csv(self.data_path)
-        df = df[df['Appartment']==102]
-        drop = ['Building','Appartment']
+       
+        #drop = ['Building','Appartment','Date']
+        drop = ['Building','Appartment','Date','Day of Week','Day of Month','Month','Weekend']
         X = df.drop(drop, axis = 1)
+        cols = X.columns
         scaler = MinMaxScaler()
         scaler.fit(X)
-        X = pd.DataFrame(scaler.transform(X),columns=['Energy','T','H'])
+        X = pd.DataFrame(scaler.transform(X),columns=cols) #['Temperature','Humidity','Day of Week','Day of Month', 'Month', 'Weekend','Energy']
         y = df['Energy']
         X = X.drop('Energy', axis = 1)
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.03, random_state=42)
@@ -131,7 +154,6 @@ class EnergyClient:
         return model
     
     def get_LSTMCNN(self):
-        
         model=Sequential()
         #print(self.X_train.shape[2],"----------------")
         #model.add(Embedding(101,256,input_length=8,))
@@ -149,10 +171,26 @@ class EnergyClient:
         payload = json.loads(payload)
         weights = np.array([np.array(i) for i in payload['weights']])
         self.model.set_weights(weights)
-
+    
+    def test_received_model(self):
+        train_p = self.model.predict(self.X_train)
+        test_p = self.model.predict(self.X_test)
+        
+        train_mae = mean_absolute_error(self.y_train, train_p)
+        train_mse = mean_squared_error(self.y_train, train_p)
+        tain_accuracy = r2_score(self.y_train, train_p)
+        
+        test_mae = mean_absolute_error(self.y_test, test_p)
+        test_mse = mean_squared_error(self.y_test, test_p)
+        test_accuracy = r2_score(self.y_test, test_p)
+        
+        df = pd.DataFrame([[train_mae, train_mse,tain_accuracy,test_mae,test_mse,test_accuracy]], columns = ['A','B','C','D','E','F'])
+        df.to_csv('performance_after_round.csv', mode='a', header=False)
+    
     def train_model(self):
-        if(not  self.first_iteration):
+        if(not self.first_iteration):
             self.finetune_model()
+            self.test_received_model()
        # if(not self.object_test()): return
         history = self.model.fit(self.X_train,self.y_train, epochs=self.local_epochs, batch_size=30, verbose=1, validation_data=(self.X_test,self.y_test))
         self.performance = history.history
@@ -193,7 +231,7 @@ class EnergyClient:
     def check_termination(self):
         f = open('server_info.txt', 'r')
         st = f.read()
-        print('Completed Rounds In File server_info.txt ' + st)
+        #print('Completed Rounds In File server_info.txt ' + st)
         rounds = st.split(',')
         if(int(rounds[-1]) != self.server_rounds):
             return False
@@ -214,22 +252,37 @@ class EnergyClient:
         return True
     
     def start_receiver(self):
-        r = Receiver()
+        r = Receiver(self.receiver_sock)
         thread = Thread(target=r.recieve)
         thread.start()
+    
+    def _timer(self,s,e,file_name):
+        t = e-s
+        f =  open(file_name +'.csv', '+a');
+        f.write(str(t) +',')
+        f.close()
         
     def start(self):
         self.start_receiver()
-        
-        print('Returned---------------')
+        s = time.time()
+        # print('Returned---------------')
         while(not self.check_termination()):
             if(self.next_iteration()):
+                e = time.time()
+                self._timer(s,e, 'waiting_time')
+                s = time.time()
                 self.train_model()
+                e = time.time()
+                self._timer(s,e, 'Training_time')
+                s = time.time()
                 self.send_model_to_server()
+                e = time.time()
+                self._timer(s,e, 'send_time')
                 self.current_server_round += 1
+                s = time.time()
+            
+            print('--------Waiting for Server--------')
             time.sleep(20)
-            print('Waiting for Server to done')
-        
     
 
 
@@ -242,6 +295,14 @@ class EnergyClient:
 # thread.start()
 # thread.join()
 # time.sleep(20)
-# e = EnergyClient()
+e = EnergyClient()
+e.start()
+
+
+# from keras import backend as K
+# trainable_count = np.sum([K.count_params(w) for w in e.model.trainable_weights])
+# non_trainable_count = np.sum([K.count_params(w) for w in e.model.non_trainable_weights])
+# print(trainable_count)
+
 # e.start()
 
