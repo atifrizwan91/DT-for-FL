@@ -51,7 +51,7 @@ Open `DT' folder in VS code and run the following commands
 
 ![](https://github.com/atifrizwan91/Greenhouse/blob/main/Images/3.PNG)
 
-#Demo
+# Demo
 Digital Twin Video Demo [Part 1](https://www.youtube.com/watch?v=QrcGZkdB7KY).
 
 Digital Twin Video Demo [Part 2](https://www.youtube.com/watch?v=TILGCEQVeP8).
