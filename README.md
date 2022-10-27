@@ -1,4 +1,4 @@
-# Digital Twin 
+# Digital Twin For Federated Learning
 ## Requirements
 Install VS code and setup python environment. Install following python libraries.
 - django
