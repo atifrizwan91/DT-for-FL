@@ -4,11 +4,13 @@ Install VS code and setup python environment. Install following python libraries
 - django
 - zmq
   - ZeroMQ is a high-performance asynchronous messaging library, aimed at use in distributed or concurrent applications.
-- tensorflow
+- tensorflow 1.6.0
+- h5py 3.1.0
+- pybind11
 - sklearn
 - pymysql
 - pandas
-- numpy 
+- numpy 1.19.5
 
 Open `DT' folder in VS code and run the following commands
 - `cd DigitalTwin`
