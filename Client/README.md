@@ -1,3 +1,6 @@
+# Install Libraries
+ `pip install Requirements.txt`
+
 # Data Tranfer
 
 1. Transfer this folder (Client) to IoT device using WinSCP FTP software
