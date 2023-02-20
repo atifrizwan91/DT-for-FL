@@ -1,3 +1,6 @@
+# Publication
+[Rizwan, A., Ahmad, R., Khan, A. N., Xu, R., & Kim, D. H. (2023). Intelligent digital twin for federated learning in AIoT networks. Internet of Things, 100698.](https://www.sciencedirect.com/science/article/pii/S2542660523000215)
+
 # Digital Twin For Federated Learning
 ## Requirements
 Install VS code and setup python environment. Install following python libraries.
